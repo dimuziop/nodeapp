@@ -1,6 +1,7 @@
 let validator = require('validator');
 const yargs = require('yargs');
 const task = require('./task');
+const chalk = require('chalk');
 
 
 yargs.version('5.5.0');
@@ -16,8 +17,8 @@ yargs.command({
     }
   },
   handler: (argv) => {
-    task.removeTask(argv.title);
-    console.log("Title: " + argv.title)
+    let result = task.removeTask(argv.title);
+    result ? console.log("Title: " + argv.title) : console.log(chalk.bgRedBright.yellow.bold("Sorry the note not exists"))
   }
   //handler: () => console.log("Remove a note")
 });
@@ -31,7 +32,12 @@ yargs.command({
 yargs.command({
   command: 'list',
   describe: 'List notes',
-  handler: () => console.log(task.listTasks())
+  handler: () => {
+    let taskTitles = task.listTasks();
+    for (let i = 0; i < taskTitles.length; i++ ) {
+        console.log(chalk.bold.white(taskTitles[i]));
+    }
+  }
 });
 
 yargs.command({

@@ -25,7 +25,12 @@ const saveTaskIntoFile = function(fileName, content) {
 };
 
 const removeTask = (title) => {
-  fs.unlinkSync('data/' + title + '.json')
+  try {
+    fs.unlinkSync('data/' + title + '.json')
+    return true
+  } catch (e) {
+    return false
+  }
 }
 
 module.exports = {
