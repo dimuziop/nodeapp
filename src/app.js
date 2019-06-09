@@ -1,5 +1,5 @@
 const request = require('request')
-const yarg = require('yargs')
+const yargs = require('yargs')
 
 const tempInCelcius = (tempInFarenheit) => Math.round(((tempInFarenheit - 32) * 5/9) * 100) / 100
 
@@ -59,10 +59,25 @@ const getTheLocation  = (location, callback) => {
   })
 }
 
-getTheLocation('Buenos Aires', (data) => {
-  console.log(data)
-})
 
+yargs.command({
+  command: 'getWeather',
+  describe: 'Get the weather for you location',
+  builder: {
+    location: {
+      describe: 'Location',
+      demandOption: true,
+      type: 'string'
+    },
+  },
+  handler: (argv) => {
+
+    getTheLocation(argv.location, (data) => {
+      console.log(data)
+    })
+  }
+});
+yargs.parse();
 
 
 
